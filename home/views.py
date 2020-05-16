@@ -37,3 +37,4 @@ def contact(request):
         messages.success(request, 'Your message successfully sent!!')
 
     return render(request,'contact.html')'''
+	# This is contact form
