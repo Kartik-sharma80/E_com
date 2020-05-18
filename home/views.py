@@ -1,12 +1,13 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse,redirect
 from datetime import datetime
-from home.models import User
+#from home.models import User
 from django.contrib.auth.models import User
 #from .forms import Signup, Verify 
 from django.contrib import messages
+from django.contrib.auth import login, authenticate
 
 #For Message API
-import requests
+
 import json
 import random
 
@@ -36,13 +37,40 @@ def sendPostRequest(reqUrl, apiKey, secretKey, useType, phoneNo, senderId, textM
 """
 # print response if you want
 # print(response.text)'''
-
-def Signup(request):
-    form = Signup()
-    #messages.success(request, 'You !!')
-    return render(request,"/index.html")
-
-class Aftersign(View):
+def index(request):
+	return render(request,"index.html")
+def signup(request):
+    if request.method=='POST':
+        FirstName = request.POST['FirstName']
+        LastName = request.POST['LastName']
+        Email = request.POST['Email']
+        username = request.POST['Mobile']
+        if len(username) > 10:
+           messages.error(request,"Mobile number must be 10 digit")
+        if User.objects.filter ( username= username ).exists ( ):
+               messages.success ( request , "user exits" )
+               return render ( request , "index.html" )
+    if username is  not None:
+           myuser = User.objects.create_user ( username )
+           messages.success ( request , "successfully register" )
+           return render ( request , "main.html" )
+    else:
+		   user = authenticate(username=username)
+		   return render ( request , "index.html" )
+def Login(request):
+	if request.method == 'POST':
+		username =  request.POST['Mobile']
+		
+		if User.objects.filter ( username= username ).exists ( ):
+				messages.success ( request , "Wel-Come our Sites") 
+				return render ( request , "index.html" )
+		else:
+			
+			messages.success(request,"Invalid Credentials,Please Try Again")
+			return redirect("index")
+		
+    
+'''class Aftersign():
     def get(self,request):
         error = "Invalid method"
         form = Signup()
@@ -71,16 +99,16 @@ class Aftersign(View):
         else:
             error = "Invalid form...."
             form = Signup()
-            return render(request,"users/signup.html",{'f':form,'error':error})
+            return render(request,"users/signup.html",{'f':form,'error':error})'''
 
 # Create your views here.
 #Homepage
-def home(request):
-    '''context ={
+'''def home(request):
+   context ={
         "variable":"This is sent"
-    }'''
+    }
     return render(request,'index.html')
-    #return HttpResponse("This is Home page")
+    #return HttpResponse("This is Home page")'''
     
     
 '''
