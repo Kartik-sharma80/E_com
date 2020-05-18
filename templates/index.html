@@ -130,7 +130,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Message:</strong>{{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+{% endif %}
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -754,7 +763,7 @@
             </div>
 
             <div class="modal-body">
-                 <form method="post" action="/signup"> {% csrf_token %}
+                 <form method="post" action="/register/"> {% csrf_token %}
 
                     <div class="form-group">
                         <label for="name">First Name</label>
@@ -773,7 +782,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mobile">Mobile No.</label>
-                        <input type="text" class="form-control" pattern="[7-9]{1}[0-9]{9} id="Mobile" placeholder="Enter your 10 Digits Mobile No"
+                        <input type="text" class="form-control"  id="Mobile" placeholder="Enter your 10 Digits Mobile No"
                             name="Mobile" required>
                     </div>
 
