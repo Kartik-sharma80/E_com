@@ -53,7 +53,7 @@ def signup(request):
     if username is  not None:
            myuser = User.objects.create_user ( username )
            messages.success ( request , "successfully register" )
-           return render ( request , "main.html" )
+           return render ( request , "index.html" )
     else:
 		   user = authenticate(username=username)
 		   return render ( request , "index.html" )
