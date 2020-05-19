@@ -41,27 +41,28 @@ def index(request):
 	return render(request,"index.html")
 def signup(request):
     if request.method=='POST':
-        FirstName = request.POST['FirstName']
+    	FirstName = request.POST['FirstName']
         LastName = request.POST['LastName']
         Email = request.POST['Email']
-        username = request.POST['Mobile']
-        if len(username) > 10:
-           messages.error(request,"Mobile number must be 10 digit")
-        if User.objects.filter ( username= username ).exists ( ):
-               messages.success ( request , "user exits" )
-               return render ( request , "index.html" )
-    if username is  not None:
-           myuser = User.objects.create_user ( username )
-           messages.success ( request , "successfully register" )
-           return render ( request , "index.html" )
+        userid = request.POST['Mobile']
+        if len(userid) > 10:
+        	messages.error(request,"Mobile number must be 10 digit")
+        if User.objects.filter (userid= userid).exists():
+        	messages.success (request , "user exits")
+        	return render (request , "index.html")
+    if userid is not None:
+    	myuser = User.objects.create_user (userid)
+	myuser.save()
+        messages.success (request , "successfully registered")
+        return render (request , "index.html")
     else:
-		   user = authenticate(username=username)
-		   return render ( request , "index.html" )
+	user = authenticate(userid=userid)
+	return render (request , "index.html")
 def Login(request):
 	if request.method == 'POST':
-		username =  request.POST['Mobile']
+		userid =  request.POST['Mobile']
 		
-		if User.objects.filter ( username= username ).exists ( ):
+		if User.objects.filter ( userid= userid ).exists ( ):
 				messages.success ( request , "Wel-Come our Sites") 
 				return render ( request , "index.html" )
 		else:
